@@ -2,8 +2,7 @@ import axios from "axios";
 import { API_KEY } from "@/config/config";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL + "/api/",
-  // baseURL: `${VITE_APP_URL}/api/`,
+  baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ Removed trailing slash
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${API_KEY}`,
@@ -12,65 +11,47 @@ const axiosInstance = axios.create({
 
 const createNewResume = async (data) => {
   try {
-    const response = await axiosInstance.post(
-      "/resume-builder-collections",
-      data
-    );
+    const response = await axiosInstance.post("/resume-builder-collections", data);
     return response.data;
   } catch (error) {
-    console.error("Error creating new resume:", error);
+    throw new Error(error?.response?.data?.message || error?.message || "Error creating new resume");
   }
 };
 
 const getResumes = async (user_email) => {
   try {
-    const response = await axiosInstance.get(
-      "/resume-builder-collections?filters[user_email][$eq]=" + user_email
-    );
+    const response = await axiosInstance.get(`/resume-builder-collections?filters[user_email][$eq]=${user_email}`);
     return response.data;
   } catch (error) {
-    console.error("Error getting resumes:", error);
+    throw new Error(error?.response?.data?.message || error?.message || "Error getting resumes");
   }
 };
 
 const updateResumeData = async (id, data) => {
   try {
-    const response = await axiosInstance.put(
-      `/resume-builder-collections/${id}`,
-      data
-    );
+    const response = await axiosInstance.put(`/resume-builder-collections/${id}`, data);
     return response.data;
   } catch (error) {
-    console.error("Error updating resume data:", error);
+    throw new Error(error?.response?.data?.message || error?.message || "Error updating resume data");
   }
 };
 
 const getResumeInfo = async (id) => {
   try {
-    const response = await axiosInstance.get(
-      `/resume-builder-collections/${id}?populate=*`
-    );
+    const response = await axiosInstance.get(`/resume-builder-collections/${id}?populate=*`);
     return response.data;
   } catch (error) {
-    console.error("Error getting resume data:", error);
+    throw new Error(error?.response?.data?.message || error?.message || "Error getting resume data");
   }
 };
 
 const deleteResume = async (id) => {
   try {
-    const response = await axiosInstance.delete(
-      `/resume-builder-collections/${id}`
-    );
+    const response = await axiosInstance.delete(`/resume-builder-collections/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error deleting resume:", error);
+    throw new Error(error?.response?.data?.message || error?.message || "Error deleting resume");
   }
 };
 
-export {
-  createNewResume,
-  getResumes,
-  updateResumeData,
-  getResumeInfo,
-  deleteResume,
-};
+export { createNewResume, getResumes, updateResumeData, getResumeInfo, deleteResume };
