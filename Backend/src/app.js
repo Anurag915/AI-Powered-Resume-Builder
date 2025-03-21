@@ -13,7 +13,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
     "http://localhost:5173", // For local development
-    "https://ai-powered-resume-builder-six.vercel.app/" // Deployed frontend
+    "https://ai-powered-resume-builder-six.vercel.app" // Deployed frontend
   ];
 const corsOptions = {
     origin:  allowedOrigins,
