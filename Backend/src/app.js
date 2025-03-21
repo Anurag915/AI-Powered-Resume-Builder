@@ -11,9 +11,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
+const allowedOrigins = [
+    "http://localhost:5173", // For local development
+    "https://ai-powered-resume-builder-d2ul.onrender.com" // Deployed frontend
+  ];
 const corsOptions = {
-    origin: [process.env.ALLOWED_SITE],
+    origin:  allowedOrigins,
     credentials: true
 };
 
